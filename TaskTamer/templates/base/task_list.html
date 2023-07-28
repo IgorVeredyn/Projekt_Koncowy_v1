@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <title>My To-Do List</title>
+    <!-- Add your CSS and other head elements here -->
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"/>
+</head>
+
+<body>
+<div class="navbar-nav">
+    <div>
+        {% if user.is_authenticated %}
+            <a class="nav-link active dropdown-toggle" href="#" data-toggle="dropdown">
+                {% if user.first_name %}
+                    Hello, {{ user.first_name }}!
+                {% else %}
+                    Hello, {{ user.username }}!
+                {% endif %}
+            </a>
+            <p><a href="{% url 'logout' %}">Logout</a></p>
+            <p>change <a href="{% url 'picture_update' %}">photo</a></p>
+            <p>change <a href="{% url 'password_change' %}">password</a></p>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item text-right" href="{% url 'logout' %}">Logout</a>
+                <a class="dropdown-item text-right" href="{% url 'password_change' %}">Change password</a>
+            </div>
+        {% else %}
+            <a class="nav-link active dropdown-toggle" href="#" data-toggle="dropdown">
+                You are not logged in.
+            </a>
+            <div class="dropdown-menu dropdown-menu-right">
+                <a class="dropdown-item text-right" href="{% url 'accounts:login' %}">Login</a>
+            </div>
+        {% endif %}
+    </div>
+    <div>
+        {% if request.user.profile.avatar %}
+            <img src="{{ user.avatar.url }}" alt="Profile Picture">
+        {% else %}
+            <img src="{% static 'images/avatar/Default_pfp.svg.png' %}" alt="Default Profile Picture">
+        {% endif %}
+    </div>
+</div>
+
+<div class="navbar-nav">
+    <!-- Your existing navbar code goes here -->
+</div>
+
+<h1>My To-Do List</h1>
+
+<!-- Form to add a new task -->
+<form method="post">
+    {% csrf_token %}
+    {{ form }}
+    <button type="button"><a href="{% url 'tasks-create' %}">Add Task</a></button>
+</form>
+<button type="button"><a href="{% url 'challenge-read' %}">Show Challenge</a></button>
+
+<table>
+    <tr>
+        <th>Item</th>
+        <th></th>
+        <th>Actions</th>
+    </tr>
+    {% for tasks in task %}
+    <tr>
+        <td>{{tasks.task_title}}</td>
+        <td><a href="{% url 'tasks-delete' tasks.id %}">Delete</a></td>
+        <td><a href="{% url 'tasks-update' tasks.id %}">Update</a></td>
+    </tr>
+    {% empty %}
+    <h3>No items in list</h3>
+    {% endfor %}
+
+</table>
+
+<!-- Display the total points earned by the user -->>
+
+</body>
+
+</html>

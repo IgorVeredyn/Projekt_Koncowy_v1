@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <h1> my challenge list</h1>
+    <h2><button type="submit"><a href="{% url 'home' %}">Back home</a></button></h2>
+    <table>
+        <tr>Item</tr>
+        {%for something in challenges %}
+        <tr>
+            <td>{{something}}</td>
+            <tr>{{something.task_description}}</tr>
+            <td><button type="submit"><a href="{% url 'challenge-update' something.id %}">Update challenge</a></button></td>
+            <td><button type="submit"><a href="{% url 'challenge-delete' something.id %}">Delete challenge</a></button></td>
+
+
+        </tr>
+        {% empty %}
+        <h3>No items in list</h3>
+        {% endfor %}
+
+    </table>
+</body>
+</html>

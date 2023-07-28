@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% load account %}
+
+{% blocktrans %}
+Hello from {{ site_name }}!
+
+Please click on the link below to confirm your registration:
+
+{{ activate_url }}
+
+Thanks for using our site.
+
+Sincerely,
+The {{ site_name }} team
+{% endblocktrans %}
+</body>
+</html>
